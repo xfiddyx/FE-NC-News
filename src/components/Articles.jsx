@@ -6,7 +6,6 @@ class Articles extends Component {
   state = { articles: [] };
   render() {
     const { articles } = this.state;
-    console.log(this.state);
     return (
       <ul className='articles'>
         {articles.map(({ article_id, author, title, created_at }) => {
@@ -33,6 +32,15 @@ class Articles extends Component {
       const { articles } = response.data;
       this.setState({ articles });
     });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevProps.topic, this.props.topic);
+    if (prevProps.topic !== this.props.topic) {
+      api.getArticles(this.props.topic).then((response) => {
+        const { articles } = response.data;
+        this.setState({ articles });
+      });
+    }
   }
 }
 
