@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from '@reach/router';
+import { Router, Link } from '@reach/router';
+import SingleArticle from './SingleArticle';
 import * as api from '../utils/api';
 
 class Articles extends Component {
@@ -12,69 +13,79 @@ class Articles extends Component {
   };
   render() {
     const { articles, sort, ordering } = this.state;
+    console.log(this.props['*']);
+
     return (
       <>
-        <select
-          className='select-dropdown'
-          name='order'
-          onChange={this.handleChange}
-        >
-          {ordering.map((choice) => {
-            return (
-              <option value={choice} key={choice}>
-                {choice}
-              </option>
-            );
-          })}
-        </select>
-        <select
-          className='select-dropdown'
-          name='sort_by'
-          onChange={this.handleChange}
-        >
-          {sort.map((choice) => {
-            return (
-              <option value={choice} key={choice}>
-                {choice}
-              </option>
-            );
-          })}
-        </select>
-        <ul className='articles'>
-          {articles.map(
-            ({
-              article_id,
-              author,
-              title,
-              created_at,
-              votes,
-              comment_count,
-            }) => {
-              return (
-                <li key={article_id} className='articles'>
-                  <Link
-                    to={`/articles/${article_id}`}
-                    onClick={() => {
-                      console.log('clicked');
-                    }}
-                  >
-                    <h3 className='articles'> {title} </h3>
-                    <p className='details' id={article_id}>
-                      Author: {author}
-                    </p>{' '}
-                    <p className='details'>
-                      Created: {new Date(created_at).toString().split('G')[0]}
-                    </p>
-                    <p className='details'>Votes: {votes}</p>
-                    <p className='details'>
-                      Number of comments: {comment_count}
-                    </p>
-                  </Link>
-                </li>
-              );
-            }
-          )}
-        </ul>
+        <Router>
+          <SingleArticle path='/:article_id' />
+        </Router>
+        {!this.props['*'] ? (
+          <>
+            <select
+              className='select-dropdown'
+              name='order'
+              onChange={this.handleChange}
+            >
+              {ordering.map((choice) => {
+                return (
+                  <option value={choice} key={choice}>
+                    {choice}
+                  </option>
+                );
+              })}
+            </select>
+            <select
+              className='select-dropdown'
+              name='sort_by'
+              onChange={this.handleChange}
+            >
+              {sort.map((choice) => {
+                return (
+                  <option value={choice} key={choice}>
+                    {choice}
+                  </option>
+                );
+              })}
+            </select>
+            <ul className='articles'>
+              {articles.map(
+                ({
+                  article_id,
+                  author,
+                  title,
+                  created_at,
+                  votes,
+                  comment_count,
+                }) => {
+                  return (
+                    <li key={article_id} className='articles'>
+                      <Link
+                        to={`/articles/${article_id}`}
+                        onClick={() => {
+                          console.log('clicked');
+                        }}
+                      >
+                        <h3 className='articles'> {title} </h3>
+                        <p className='details' id={article_id}>
+                          Author: {author}
+                        </p>{' '}
+                        <p className='details'>
+                          Created:{' '}
+                          {new Date(created_at).toString().split('G')[0]}
+                        </p>
+                        <p className='details'>Votes: {votes}</p>
+                        <p className='details'>
+                          Number of comments: {comment_count}
+                        </p>
+                      </Link>
+                    </li>
+                  );
+                }
+              )}
+            </ul>
+          </>
+        ) : null}
       </>
     );
   }
