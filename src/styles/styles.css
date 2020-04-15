@@ -26,7 +26,7 @@ header {
   height: 20vh;
   position: relative;
   display: grid;
-  background-color: #588188;
+  background-color: #2e5266;
   grid-template-rows: max-content 1fr;
   grid-template-columns: 1fr max-content;
 }
@@ -47,7 +47,7 @@ ul.navbar {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #f9fff9;
+  background-color: #6e8898;
   font-family: 'Source sans pro', sans-serif;
   text-align: left;
 }
@@ -69,7 +69,6 @@ li a {
 /*articles list -------------------- */
 
 ul.articles,
-ul.topics,
 ul.articlesByTopic {
   flex-wrap: wrap;
   display: flex;
@@ -77,7 +76,7 @@ ul.articlesByTopic {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #f0f7ee;
+  background-color: #9fb1bc;
   font-family: 'Source sans pro', sans-serif;
   text-align: center;
 }
@@ -90,6 +89,17 @@ h3.articles {
   margin: 0;
 }
 /* ---------------------------- */
+ul.topics {
+  flex-wrap: wrap;
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #588188;
+  font-family: 'Source sans pro', sans-serif;
+  text-align: center;
+}
 
 /*article in article list  -------------------- */
 p.details {

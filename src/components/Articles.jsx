@@ -28,20 +28,25 @@ class Articles extends Component {
   }
 
   componentDidMount() {
-    api.getArticles().then((response) => {
-      const { articles } = response.data;
-      this.setState({ articles });
-    });
+    this.fetchArticles();
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log(prevProps.topic, this.props.topic);
     if (prevProps.topic !== this.props.topic) {
       api.getArticles(this.props.topic).then((response) => {
+        console.log(response.data);
         const { articles } = response.data;
         this.setState({ articles });
       });
     }
   }
+
+  fetchArticles = () => {
+    const topic = this.props.topic;
+    api.getArticles(topic).then((response) => {
+      const { articles } = response.data;
+      this.setState({ articles });
+    });
+  };
 }
 
 export default Articles;

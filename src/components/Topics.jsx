@@ -6,11 +6,9 @@ import Articles from './Articles';
 class Topics extends Component {
   state = {
     topics: [],
-    articlesByTopic: [],
   };
   render() {
-    const { topics, articlesByTopic } = this.state;
-    console.log(articlesByTopic);
+    const { topics } = this.state;
     return (
       <>
         <h1 className='topics'>Topics</h1>

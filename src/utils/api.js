@@ -6,10 +6,11 @@ const request = axios.create({
 });
 
 export const getArticles = (topic) => {
-  console.log(topic);
-  if (!topic) {
-    return request.get('/articles');
-  } else return request.get(`/articles?topic=${topic}`);
+  return request.get('/articles', { params: { topic } });
+};
+
+export const getSingleArticle = (id) => {
+  return request.get(`/articles/${id}`);
 };
 
 export const getTopics = () => {
