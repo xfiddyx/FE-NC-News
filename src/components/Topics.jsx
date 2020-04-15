@@ -6,9 +6,12 @@ import Articles from './Articles';
 class Topics extends Component {
   state = {
     topics: [],
+    isLoading: true,
   };
   render() {
-    const { topics } = this.state;
+    const { topics, isLoading } = this.state;
+    if (isLoading) return <p>...loading</p>;
+
     return (
       <>
         <h1 className='topics'>Topics</h1>
