@@ -34,7 +34,7 @@ class Topics extends Component {
 
   componentDidMount() {
     api.getTopics().then((topics) => {
-      this.setState({ topics });
+      this.setState({ topics, isLoading: false });
     });
   }
 }

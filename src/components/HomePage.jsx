@@ -34,9 +34,9 @@ class HomePage extends Component {
     );
   }
   componentDidMount() {
-    let hour = 1000 * 60 * 60;
-    let oneHourAgo = Date.now() - hour;
-    if (this.props.date < oneHourAgo || this.state.article === []) {
+    let day = 1000 * 60 * 60 * 24;
+    let oneDayAgo = Date.now() - day;
+    if (this.props.articleClock < oneDayAgo || this.state.article === []) {
       this.fetchArticle();
     } else this.hydrateStateWithLocalStorage();
   }

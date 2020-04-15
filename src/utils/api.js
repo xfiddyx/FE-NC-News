@@ -6,8 +6,7 @@ const request = axios.create({
 });
 
 export const getArticles = (topic, sort_by, order) => {
-  sort_by = sort_by.replace(/ /, '_');
-  console.log(sort_by, order);
+  if (sort_by) sort_by = sort_by.replace(/ /, '_');
   return request.get('/articles', { params: { topic, sort_by, order } });
 };
 
