@@ -2,14 +2,33 @@ import React, { Component } from 'react';
 import * as api from '../utils/api';
 
 class Comment extends Component {
-  state = { comments: [], usersComment: false };
+  state = { comments: [], usersComment: false, user: '', comment: '' };
   render() {
+    //ADD user and comment to state and retrieve from theere to make post request using this as the data
     const { comments } = this.state;
     return (
       <>
         {this.props.showComments ? (
           <div className='comments-container'>
             <h1>Comments</h1>
+            <div>
+              <form onSubmit={this.commentSubmit}>
+                <label>Username</label>
+                <input
+                  type='text'
+                  id='user'
+                  name='user'
+                  placeholder='username...'
+                ></input>
+                <label>Comment</label>
+                <textarea
+                  id='comment'
+                  name='subject'
+                  placeholder='Write something..'
+                ></textarea>
+                <input type='submit' value='Submit'></input>
+              </form>
+            </div>
             <ul className='comments-list'>
               {comments.map(
                 ({ votes, created_at, body, author, comment_id }) => {
@@ -63,6 +82,10 @@ class Comment extends Component {
         this.setState({ comments: data.comments });
       });
     });
+  };
+  commentSubmit = (event) => {
+    console.log(event.target.value);
+    event.preventDefault();
   };
 }
 export default Comment;

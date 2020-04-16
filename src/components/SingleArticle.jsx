@@ -6,7 +6,6 @@ class Article extends Component {
   state = { article: {}, showComments: false };
   render() {
     const { article } = this.state;
-    console.log(this.props);
     return (
       <div>
         <h1>{article.title}</h1>

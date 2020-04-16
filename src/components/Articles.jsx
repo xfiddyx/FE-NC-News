@@ -14,7 +14,6 @@ class Articles extends Component {
 
   render() {
     const { articles, sort, ordering } = this.state;
-    console.log(this.props);
     return (
       <>
         <Router>
