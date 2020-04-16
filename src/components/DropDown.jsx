@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import * as api from '../utils/api';
 
 class DropDown extends Component {
   state = {
     sort: ['created at', 'comment count', 'votes'],
-    sort_by: 'created at',
     ordering: ['desc', 'asc'],
-    order: 'desc',
   };
   render() {
     const { sort, ordering } = this.state;
@@ -41,34 +38,10 @@ class DropDown extends Component {
       </>
     );
   }
-
-  componentDidMount() {
-    this.fetchArticles();
-  }
-  componentDidUpdate(prevProps, prevState) {
-    const { sort_by, order } = this.state;
-    if (
-      prevState.sort_by !== this.state.sort_by ||
-      prevState.order !== this.state.order
-    ) {
-      api.getArticles(sort_by, order).then((response) => {
-        const { articles } = response.data;
-        this.setState({ articles });
-      });
-    }
-  }
-
-  fetchArticles = () => {
-    const { sort_by, order } = this.state;
-    api.getArticles(sort_by, order).then((response) => {
-      const { articles } = response.data;
-      this.setState({ articles });
-    });
-  };
-
   handleChange = (event) => {
+    const { onChange } = this.props;
     const { value, name } = event.target;
-    this.setState({ [name]: value });
+    onChange(value, name);
   };
 }
 

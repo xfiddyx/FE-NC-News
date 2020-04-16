@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import { Router, Link } from '@reach/router';
+import DropDown from './DropDown';
 import SingleArticle from './SingleArticle';
 import * as api from '../utils/api';
 
 class Articles extends Component {
   state = {
     articles: [],
-    sort: ['created at', 'comment count', 'votes'],
     sort_by: 'created at',
-    ordering: ['desc', 'asc'],
     order: 'desc',
   };
 
   render() {
-    const { articles, sort, ordering } = this.state;
+    const { articles } = this.state;
     return (
       <>
         <Router>
@@ -22,32 +21,7 @@ class Articles extends Component {
 
         {!this.props['*'] ? (
           <>
-            <select
-              className='select-dropdown'
-              name='order'
-              onChange={this.handleChange}
-            >
-              {ordering.map((choice) => {
-                return (
-                  <option value={choice} key={choice}>
-                    {choice}
-                  </option>
-                );
-              })}
-            </select>
-            <select
-              className='select-dropdown'
-              name='sort_by'
-              onChange={this.handleChange}
-            >
-              {sort.map((choice) => {
-                return (
-                  <option value={choice} key={choice}>
-                    {choice}
-                  </option>
-                );
-              })}
-            </select>
+            <DropDown onChange={this.handleChange} />
             <ul className='articles'>
               {articles.map(
                 ({
@@ -112,8 +86,7 @@ class Articles extends Component {
     });
   };
 
-  handleChange = (event) => {
-    const { value, name } = event.target;
+  handleChange = (value, name) => {
     this.setState({ [name]: value });
   };
 }

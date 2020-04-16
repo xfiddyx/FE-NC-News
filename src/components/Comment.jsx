@@ -4,8 +4,8 @@ import * as api from '../utils/api';
 class Comment extends Component {
   state = { comments: [], usersComment: false, user: '', comment: '' };
   render() {
-    //ADD user and comment to state and retrieve from theere to make post request using this as the data
     const { comments } = this.state;
+    console.log(this.state);
     return (
       <>
         {this.props.showComments ? (
@@ -19,12 +19,16 @@ class Comment extends Component {
                   id='user'
                   name='user'
                   placeholder='username...'
+                  onChange={this.handleUserChange}
+                  required
                 ></input>
                 <label>Comment</label>
                 <textarea
                   id='comment'
                   name='subject'
-                  placeholder='Write something..'
+                  placeholder='Leave your comment..'
+                  onChange={this.handleCommentChange}
+                  required
                 ></textarea>
                 <input type='submit' value='Submit'></input>
               </form>
@@ -83,9 +87,20 @@ class Comment extends Component {
       });
     });
   };
-  commentSubmit = (event) => {
-    console.log(event.target.value);
+
+  handleUserChange = (event) => {
     event.preventDefault();
+    this.setState({ user: event.target.value });
+  };
+  handleCommentChange = (event) => {
+    event.preventDefault();
+    this.setState({ comment: event.target.value });
+  };
+
+  commentSubmit = (event) => {
+    const user = this.state.user;
+    const comment = this.state.comment;
+    this.setState({ user, comment }).then(api.post);
   };
 }
 export default Comment;
