@@ -16,9 +16,6 @@ class Navbar extends Component {
             <li>
               <Link to='/topics'>Topics</Link>
             </li>
-            <li>
-              <Link to='/comments'>Comments</Link>
-            </li>
           </ul>
         </nav>
       </div>

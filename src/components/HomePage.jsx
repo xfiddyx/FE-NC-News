@@ -17,7 +17,7 @@ class HomePage extends Component {
         <ul>
           {article.map(({ title, body, author, created_at, article_id }) => {
             return (
-              <li>
+              <li key={article_id}>
                 <h3 className='articles'> {title} </h3>
                 <p>{body}</p>
                 <p className='' id={article_id}>
@@ -36,7 +36,10 @@ class HomePage extends Component {
   componentDidMount() {
     let day = 1000 * 60 * 60 * 24;
     let oneDayAgo = Date.now() - day;
-    if (this.props.articleClock < oneDayAgo || this.state.article === []) {
+    if (
+      Date.now(this.state.articleClock) < oneDayAgo ||
+      this.state.article === []
+    ) {
       this.fetchArticle();
     } else this.hydrateStateWithLocalStorage();
   }

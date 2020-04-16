@@ -11,15 +11,16 @@ class Articles extends Component {
     ordering: ['desc', 'asc'],
     order: 'desc',
   };
+
   render() {
     const { articles, sort, ordering } = this.state;
-    console.log(this.props['*']);
-
+    console.log(this.props);
     return (
       <>
         <Router>
-          <SingleArticle path='/:article_id' />
+          <SingleArticle path='/:article_id' user={this.props.user} />
         </Router>
+
         {!this.props['*'] ? (
           <>
             <select
@@ -60,12 +61,7 @@ class Articles extends Component {
                 }) => {
                   return (
                     <li key={article_id} className='articles'>
-                      <Link
-                        to={`/articles/${article_id}`}
-                        onClick={() => {
-                          console.log('clicked');
-                        }}
-                      >
+                      <Link to={`/articles/${article_id}`} onClick={() => {}}>
                         <h3 className='articles'> {title} </h3>
                         <p className='details' id={article_id}>
                           Author: {author}
