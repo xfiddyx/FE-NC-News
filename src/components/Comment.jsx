@@ -3,10 +3,14 @@ import * as api from '../utils/api';
 import { removeDeletedComment } from '../utils/utils';
 
 class Comment extends Component {
-  state = { comments: [], usersComment: false, comment: '' };
+  state = {
+    comments: [],
+    usersComment: false,
+    comment: '',
+    voteToInc: { votes: 0, comment_id: 0 },
+  };
   render() {
     const { comments } = this.state;
-    console.log(this.state);
     return (
       <>
         {this.props.showComments ? (
@@ -33,9 +37,15 @@ class Comment extends Component {
                       <p className='comment-content'>{body}</p>
 
                       <p className='comment-content'>
-                        Submitted by: {author}, on {created_at.substring(0, 10)}
+                        Submitted by: {author}, on{' '}
+                        {created_at.substring(0, 10).replace(/-/g, ' ')}
                       </p>
-                      <p className='comment-content'>Votes: {votes}</p>
+                      <p className='comment-content'>
+                        Votes:{' '}
+                        {this.state.voteToInc.comment_id === comment_id
+                          ? votes + this.state.voteToInc.votes
+                          : votes}
+                      </p>
                       {this.props.user === author ? (
                         <button
                           onClick={() => {
@@ -46,6 +56,18 @@ class Comment extends Component {
                           Delete comment
                         </button>
                       ) : null}
+                      <button
+                        onClick={() => {
+                          this.handleVote(1, comment_id);
+                        }}
+                        className='button2'
+                      ></button>
+                      <button
+                        onClick={() => {
+                          this.handleVote(-1, comment_id);
+                        }}
+                        className='button3'
+                      ></button>
                     </li>
                   );
                 }
@@ -104,6 +126,15 @@ class Comment extends Component {
       const { comment } = data;
       return { comments: [comment, ...currentState.comments], comment: '' };
     });
+  };
+
+  handleVote = (vote, comment_id) => {
+    this.setState((currentState) => {
+      return {
+        voteToInc: { votes: currentState.voteToInc.votes + vote, comment_id },
+      };
+    });
+    api.patchVotes(vote, comment_id, this.props.type);
   };
 }
 export default Comment;

@@ -10,7 +10,6 @@ class HomePage extends Component {
 
   render() {
     const { article } = this.state;
-    console.log(this.state);
     return (
       <div>
         <h1>Article of the day</h1>
@@ -24,7 +23,7 @@ class HomePage extends Component {
                   Author: {author}
                 </p>
                 <p className=''>
-                  Created: {new Date(created_at).toString().split('G')[0]}
+                  Created: {created_at.substring(0, 10).replace(/-/g, ' ')}
                 </p>
               </li>
             );

@@ -208,7 +208,30 @@ h1 {
   color: #000;
   background-color: #e2c044;
   text-align: center;
-  transition: all 0.2s;
+}
+.button2 {
+  background-image: url('../images/thumbup.png');
+  background-size: contain;
+  display: inline-block;
+  padding: 10px 10px 10px 10px;
+  margin: 0px 0px 0px 10px;
+  border-radius: 5px;
+  color: #000;
+  background-color: #e2c044;
+  width: 40px;
+  height: 40px;
+}
+.button3 {
+  background-image: url('../images/thumbd.png');
+  background-size: contain;
+  display: inline-block;
+  padding: 10px 10px 10px 10px;
+  margin: 0px 0px 0px 10px;
+  border-radius: 5px;
+  color: #000;
+  background-color: #e2c044;
+  width: 40px;
+  height: 40px;
 }
 
 @media all and (max-width: 30em) {

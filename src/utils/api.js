@@ -33,6 +33,15 @@ export const addComment = (username, body, id) => {
       return data;
     });
 };
+
+export const patchVotes = (vote, id, type) => {
+  console.log(type, id);
+  const { data } = request.patch(`/${type}/${id}`, {
+    inc_votes: vote,
+  });
+  return data;
+};
+
 export const deleteComment = (comment_id) => {
   return request.delete(`/comments/${comment_id}`);
 };

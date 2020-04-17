@@ -16,7 +16,11 @@ class Articles extends Component {
     return (
       <>
         <Router>
-          <SingleArticle path='/:article_id' user={this.props.user} />
+          <SingleArticle
+            path='/:article_id'
+            user={this.props.user}
+            type={'articles'}
+          />
         </Router>
 
         {!this.props['*'] ? (
@@ -41,7 +45,7 @@ class Articles extends Component {
                         </p>{' '}
                         <p className='details'>
                           Created:{' '}
-                          {new Date(created_at).toString().split('G')[0]}
+                          {created_at.substring(0, 10).replace(/-/g, ' ')}
                         </p>
                         <p className='details'>Votes: {votes}</p>
                         <p className='details'>
