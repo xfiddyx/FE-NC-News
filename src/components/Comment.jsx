@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import * as api from '../utils/api';
+import { removeDeletedComment } from '../utils/utils';
 
 class Comment extends Component {
-  state = { comments: [], usersComment: false, user: '', comment: '' };
+  state = { comments: [], usersComment: false, comment: '' };
   render() {
     const { comments } = this.state;
     console.log(this.state);
@@ -13,15 +14,6 @@ class Comment extends Component {
             <h1>Comments</h1>
             <div>
               <form onSubmit={this.commentSubmit}>
-                <label>Username</label>
-                <input
-                  type='text'
-                  id='user'
-                  name='user'
-                  placeholder='username...'
-                  onChange={this.handleUserChange}
-                  required
-                ></input>
                 <label>Comment</label>
                 <textarea
                   id='comment'
@@ -69,7 +61,7 @@ class Comment extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.article_id !== this.props.article_id) {
-      this.fetchSingleArticle();
+      this.fetchSingleArticlesComments();
     }
   }
 
@@ -81,10 +73,9 @@ class Comment extends Component {
   };
   deleteComment = (comment_id) => {
     api.deleteComment(comment_id).then(() => {
-      const { article_id } = this.props;
-      api.getComment(article_id).then(({ data }) => {
-        this.setState({ comments: data.comments });
-      });
+      const { comments } = this.state;
+      const amendedComments = removeDeletedComment(comments, comment_id);
+      this.setState({ comments: amendedComments });
     });
   };
 
@@ -98,9 +89,21 @@ class Comment extends Component {
   };
 
   commentSubmit = (event) => {
-    const user = this.state.user;
+    event.preventDefault();
+    const { article_id } = this.props;
+    const username = this.props.user;
     const comment = this.state.comment;
-    this.setState({ user, comment }).then(api.post);
+    api.addComment(username, comment, article_id).then((data) => {
+      this.addCommentToState(data);
+    });
+    event.target.reset();
+  };
+
+  addCommentToState = (data) => {
+    this.setState((currentState) => {
+      const { comment } = data;
+      return { comments: [comment, ...currentState.comments], comment: '' };
+    });
   };
 }
 export default Comment;

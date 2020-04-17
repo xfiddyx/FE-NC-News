@@ -24,7 +24,16 @@ export const getComment = (id) => {
   return request.get(`/articles/${id}/comments`);
 };
 
-export const addComment = (user, comment) => {};
+export const addComment = (username, body, id) => {
+  console.log(username, body, id);
+  return request
+    .post(`/articles/${id}/comments`, { username, body })
+    .then((response) => {
+      console.log(response.data);
+      const { data } = response;
+      return data;
+    });
+};
 export const deleteComment = (comment_id) => {
   return request.delete(`/comments/${comment_id}`);
 };

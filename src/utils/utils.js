@@ -4,4 +4,8 @@ const getAllTopicNames = (topics) => {
   });
 };
 
-export { getAllTopicNames };
+const removeDeletedComment = (comments, comment_id) => {
+  return comments.filter((comment) => comment.comment_id !== comment_id);
+};
+
+export { getAllTopicNames, removeDeletedComment };
