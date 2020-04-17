@@ -29,7 +29,6 @@ export const addComment = (username, body, id) => {
   return request
     .post(`/articles/${id}/comments`, { username, body })
     .then((response) => {
-      console.log(response.data);
       const { data } = response;
       return data;
     });
