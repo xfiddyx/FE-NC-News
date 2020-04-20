@@ -1,7 +1,17 @@
-**As a hiring partner, I should be able to...**
+**Norf-Norf News**
 
-10. use the site on my mobile without sacrificing style or functionality (as I may not have my laptop nearby).
-11. follow the readme instructions to easily run the project locally.
-12. find a link to the hosted version of the project in the readme.
-13. find a link to the back-end repository of the project in the readme.
-14. find a link to the hosted version of the back-end project in the readme.
+To view this site you can visit: https://norfnorfnews.netlify.app/
+
+**Back at it again**
+
+To have a 👀 at what's going on in the back-end visit: https://github.com/xfiddyx/be-nc-news
+
+You can also find the endpoints 👉🏻 https://nc-news-odishon.herokuapp.com/api/
+
+**Requirements**
+You must atleast have Node v13.0.0 to run this repo
+
+**Running this repo**
+Do the usual ─∈ and clone the project down to your local device!
+
+Open the project, type npm install in to the terminal, this will install all necessary libraries. The project will be able to launch with npm start.
