@@ -2,14 +2,24 @@ import React, { Component } from 'react';
 import { Link, Router } from '@reach/router';
 import * as api from '../utils/api';
 import Articles from './Articles';
+import ErrorPage from './ErrorPage';
 
 class Topics extends Component {
   state = {
     topics: [],
     isLoading: true,
+    topicError: null,
   };
   render() {
-    const { topics, isLoading } = this.state;
+    const { topics, isLoading, topicError } = this.state;
+
+    if (topicError)
+      return (
+        <ErrorPage
+          status={this.state.topicError.status}
+          message={this.state.topicError.message}
+        />
+      );
     if (isLoading) return <p>...loading</p>;
 
     return (
@@ -33,10 +43,22 @@ class Topics extends Component {
   }
 
   componentDidMount() {
-    api.getTopics().then((topics) => {
-      this.setState({ topics, isLoading: false });
-    });
+    this.fetchTopics();
   }
+
+  fetchTopics = () => {
+    api
+      .getTopics()
+      .then((topics) => {
+        this.setState({ topics, isLoading: false });
+      })
+      .catch((err) => {
+        const { status, data } = err.response;
+        this.setState({
+          topicError: { status: status, message: data.msg },
+        });
+      });
+  };
 }
 
 export default Topics;

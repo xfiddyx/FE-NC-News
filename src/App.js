@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Navbar from './components/Navbar';
 import Articles from './components/Articles';
 import HomePage from './components/HomePage';
+import ErrorPage from './components/ErrorPage';
 import { Router } from '@reach/router';
 import Topics from './components/Topics';
 
@@ -12,13 +13,14 @@ class App extends Component {
   };
   render() {
     return (
-      <div className='App'>
+      <div>
         <Header />
         <Navbar />
         <Router>
           <HomePage path='/' />
           <Articles path='/articles/*' user={this.state.user} />
           <Topics path='/topics/*' />
+          <ErrorPage default />
         </Router>
       </div>
     );

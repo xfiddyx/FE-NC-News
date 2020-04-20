@@ -253,3 +253,8 @@ textarea {
   margin-bottom: 16px; /* Bottom margin */
   resize: vertical; /* Allow the user to vertically resize the textarea (not horizontally) */
 }
+
+.columnCenter {
+  margin-left: 40px;
+  margin-right: 40px;
+}

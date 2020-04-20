@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
 import * as api from '../utils/api';
 import Comment from './Comment';
+import ErrorPage from './ErrorPage';
 
 class Article extends Component {
   state = {
     article: {},
     showComments: false,
     voteToInc: { votes: 0, id: 0 },
+    articleIdError: null,
+    isLoading: true,
   };
   render() {
-    const { article } = this.state;
+    const { article, articleIdError, isLoading } = this.state;
+    if (articleIdError)
+      return (
+        <ErrorPage
+          status={this.state.articleIdError.status}
+          message={this.state.articleIdError.message}
+        />
+      );
+    if (isLoading) return <p>...loading</p>;
+
     return (
       <div>
         <h1>{article.title}</h1>
@@ -63,10 +75,19 @@ class Article extends Component {
 
   fetchSingleArticle = () => {
     const { article_id } = this.props;
-    api.getSingleArticle(article_id).then(({ data }) => {
-      this.setState({ article: data.article });
-    });
+    api
+      .getSingleArticle(article_id)
+      .then(({ data }) => {
+        this.setState({ article: data.article, isLoading: false });
+      })
+      .catch((err) => {
+        const { status, data } = err.response;
+        this.setState({
+          articleIdError: { status: status, message: data.msg },
+        });
+      });
   };
+
   handleClick = () => {
     this.setState((currentState) => {
       return { showComments: !currentState.showComments };

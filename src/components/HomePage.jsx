@@ -6,10 +6,13 @@ class HomePage extends Component {
     article: [],
     numberOfArticles: 0,
     articleClock: '',
+    isLoading: true,
   };
 
   render() {
-    const { article } = this.state;
+    const { article, isLoading } = this.state;
+    if (isLoading) return <p>...loading</p>;
+
     return (
       <div>
         <h1>Article of the day</h1>
@@ -35,10 +38,8 @@ class HomePage extends Component {
   componentDidMount() {
     let day = 1000 * 60 * 60 * 24;
     let oneDayAgo = Date.now() - day;
-    if (
-      Date.now(this.state.articleClock) < oneDayAgo ||
-      this.state.article === []
-    ) {
+    const yesterdaysTime = JSON.parse(localStorage.getItem('articleClock'));
+    if (yesterdaysTime < oneDayAgo || this.state.article === []) {
       this.fetchArticle();
     } else this.hydrateStateWithLocalStorage();
   }
@@ -54,13 +55,15 @@ class HomePage extends Component {
         const id = Math.floor(Math.random() * numberOfArticles);
         api.getSingleArticle(id).then((response) => {
           const { article } = response.data;
-
+          const todaysDate = new Date();
           this.setState({
             article: [article],
             numberOfArticles,
-            articleClock: new Date(),
+            articleClock: todaysDate.setHours(9, 0, 0, 0),
+            isLoading: false,
           });
           localStorage.setItem('article', JSON.stringify(article));
+          localStorage.setItem('articleClock', JSON.stringify(todaysDate));
         });
       });
   };
@@ -71,7 +74,7 @@ class HomePage extends Component {
         let value = localStorage.getItem(key);
         try {
           value = JSON.parse(value);
-          this.setState({ [key]: [value] });
+          this.setState({ [key]: [value], isLoading: false });
         } catch (e) {
           this.setState({ [key]: value });
         }
