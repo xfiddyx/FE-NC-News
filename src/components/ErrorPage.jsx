@@ -6,7 +6,7 @@ const ErrorPage = (props) => {
       <h1>Something went wrong....</h1>
       <h2>
         {props.status}
-        {'  '}
+        {'    '}
         {props.message}
       </h2>
     </div>
