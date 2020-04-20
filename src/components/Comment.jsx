@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as api from '../utils/api';
 import { removeDeletedComment } from '../utils/utils';
+import ListComments from './ListComments';
 
 class Comment extends Component {
   state = {
@@ -11,9 +12,17 @@ class Comment extends Component {
   };
   render() {
     const { comments } = this.state;
+    const {
+      handleVote,
+      commentId,
+      vote,
+      type,
+      showComments,
+      user,
+    } = this.props;
     return (
       <>
-        {this.props.showComments ? (
+        {showComments ? (
           <div className='comments-container'>
             <h1>Comments</h1>
             <div>
@@ -30,48 +39,19 @@ class Comment extends Component {
               </form>
             </div>
             <ul className='comments-list'>
-              {comments.map(
-                ({ votes, created_at, body, author, comment_id }) => {
-                  return (
-                    <li key={comment_id} className='comments'>
-                      <p className='comment-content'>{body}</p>
-
-                      <p className='comment-content'>
-                        Submitted by: {author}, on{' '}
-                        {created_at.substring(0, 10).replace(/-/g, ' ')}
-                      </p>
-                      <p className='comment-content'>
-                        Votes:{' '}
-                        {this.state.voteToInc.comment_id === comment_id
-                          ? votes + this.state.voteToInc.votes
-                          : votes}
-                      </p>
-                      {this.props.user === author ? (
-                        <button
-                          onClick={() => {
-                            this.deleteComment(comment_id);
-                          }}
-                          className='button1'
-                        >
-                          Delete comment
-                        </button>
-                      ) : null}
-                      <button
-                        onClick={() => {
-                          this.handleVote(1, comment_id);
-                        }}
-                        className='button2'
-                      ></button>
-                      <button
-                        onClick={() => {
-                          this.handleVote(-1, comment_id);
-                        }}
-                        className='button3'
-                      ></button>
-                    </li>
-                  );
-                }
-              )}
+              {comments.map((comment) => {
+                return (
+                  <ListComments
+                    comment={comment}
+                    handleVote={handleVote}
+                    commentId={commentId}
+                    vote={vote}
+                    type={type}
+                    user={user}
+                    deleteComment={this.deleteComment}
+                  />
+                );
+              })}
             </ul>
           </div>
         ) : null}
@@ -95,27 +75,26 @@ class Comment extends Component {
   };
   deleteComment = (comment_id) => {
     api.deleteComment(comment_id).then(() => {
-      const { comments } = this.state;
-      const amendedComments = removeDeletedComment(comments, comment_id);
-      this.setState({ comments: amendedComments });
+      this.setState((currentState) => {
+        const { comments } = currentState;
+        const amendedComments = removeDeletedComment(comments, comment_id);
+        return { comments: amendedComments };
+      });
     });
   };
 
-  handleUserChange = (event) => {
-    event.preventDefault();
-    this.setState({ user: event.target.value });
-  };
   handleCommentChange = (event) => {
     event.preventDefault();
-    this.setState({ comment: event.target.value });
+    const { value } = event.target;
+
+    this.setState({ comment: value });
   };
 
   commentSubmit = (event) => {
     event.preventDefault();
-    const { article_id } = this.props;
-    const username = this.props.user;
-    const comment = this.state.comment;
-    api.addComment(username, comment, article_id).then((data) => {
+    const { article_id, user } = this.props;
+    const { comment } = this.state;
+    api.addComment(user, comment, article_id).then((data) => {
       this.addCommentToState(data);
     });
     event.target.reset();
@@ -126,15 +105,6 @@ class Comment extends Component {
       const { comment } = data;
       return { comments: [comment, ...currentState.comments], comment: '' };
     });
-  };
-
-  handleVote = (vote, comment_id) => {
-    this.setState((currentState) => {
-      return {
-        voteToInc: { votes: currentState.voteToInc.votes + vote, comment_id },
-      };
-    });
-    api.patchVotes(vote, comment_id, this.props.type);
   };
 }
 export default Comment;

@@ -10,44 +10,47 @@ class Article extends Component {
     voteToInc: { votes: 0, id: 0 },
     articleIdError: null,
     isLoading: true,
+    status: '',
+    message: '',
   };
   render() {
-    const { article, articleIdError, isLoading } = this.state;
-    if (articleIdError)
-      return (
-        <ErrorPage
-          status={this.state.articleIdError.status}
-          message={this.state.articleIdError.message}
-        />
-      );
+    const {
+      article,
+      articleIdError,
+      isLoading,
+      status,
+      message,
+      voteToInc,
+    } = this.state;
+    const { type } = this.props;
+    if (articleIdError) return <ErrorPage status={status} message={message} />;
     if (isLoading) return <p>...loading</p>;
 
+    const { body, created_at, votes, article_id } = article;
+
     return (
-      <div>
+      <div className='center'>
         <h1>{article.title}</h1>
-        <p className='singleArticle'>{article.body}</p>
+        <p className='singleArticle'>{body}</p>
         <p className='singleArticle'>
           Created on:{' '}
-          {article.created_at
-            ? article.created_at.substr(0, 10).replace(/-/g, ' ')
-            : null}
+          {created_at ? created_at.substr(0, 10).replace(/-/g, ' ') : null}
         </p>
         <p>
-          Votes:{' '}
-          {this.state.voteToInc.id === article.article_id
-            ? article.votes + this.state.voteToInc.votes
-            : article.votes}
+          Votes: {voteToInc.id === article_id ? votes + voteToInc.votes : votes}
         </p>
         <button
           onClick={() => {
-            this.handleVote(1, article.article_id);
+            this.handleVote(1, article_id, type);
           }}
           className='button2'
+          disabled={voteToInc.votes === 1}
         ></button>
         <button
           onClick={() => {
-            this.handleVote(-1, article.article_id);
+            this.handleVote(-1, article_id, type);
           }}
+          disabled={voteToInc.votes === -1}
           className='button3'
         ></button>
         <button onClick={this.handleClick} className='button1'>
@@ -59,6 +62,9 @@ class Article extends Component {
           showComments={this.state.showComments}
           user={this.props.user}
           type={'comments'}
+          handleVote={this.handleVote}
+          commentId={voteToInc.id}
+          vote={voteToInc.votes}
         />
       </div>
     );
@@ -93,13 +99,13 @@ class Article extends Component {
       return { showComments: !currentState.showComments };
     });
   };
-  handleVote = (vote, id) => {
+  handleVote = (vote, id, type) => {
     this.setState((currentState) => {
       return {
         voteToInc: { votes: currentState.voteToInc.votes + vote, id },
       };
     });
-    api.patchVotes(vote, id, this.props.type);
+    api.patchVotes(vote, id, type);
   };
 }
 export default Article;
