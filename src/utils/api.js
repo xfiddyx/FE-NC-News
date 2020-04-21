@@ -14,6 +14,10 @@ export const getSingleArticle = (id) => {
   return request.get(`/articles/${id}`);
 };
 
+export const getRandomArticle = () => {
+  return request.get('/articles/article');
+};
+
 export const getTopics = () => {
   return request.get('/topics').then((response) => {
     const topics = util.getAllTopicNames(response.data.topics);

@@ -1,44 +1,42 @@
 import * as api from '../utils/api';
 import React, { Component } from 'react';
+import { Link } from '@reach/router';
 
 class HomePage extends Component {
   state = {
     article: [],
-    numberOfArticles: 0,
-    articleClock: '',
     isLoading: true,
+    articleClock: '',
   };
 
   render() {
     const { article, isLoading } = this.state;
     if (isLoading) return <p>...loading</p>;
-
+    const { title, author, created_at, article_id } = article;
+    console.log(article);
     return (
-      <div className='center'>
+      <div>
         <h1>Article of the day</h1>
-        <ul>
-          {article.map(({ title, body, author, created_at, article_id }) => {
-            return (
-              <li key={article_id}>
-                <h3 className='articles'> {title} </h3>
-                <p>{body}</p>
-                <p className='' id={article_id}>
-                  Author: {author}
-                </p>
-                <p className=''>
-                  Created: {created_at.substring(0, 10).replace(/-/g, ' ')}
-                </p>
-              </li>
-            );
-          })}
-        </ul>
+        <Link to={`/articles/${article_id}`} onClick={() => {}}>
+          <li key={article_id} className='articles'>
+            <h3 className='articles'> {title} </h3>
+            <p className='' id={article_id}>
+              Author: {author}
+            </p>
+            <p className=''>
+              Created: {created_at.substring(0, 10).replace(/-/g, ' ')}
+            </p>
+          </li>
+        </Link>
       </div>
     );
   }
+
   componentDidMount() {
     const { article } = this.state;
     let day = 1000 * 60 * 60 * 24;
     let oneDayAgo = Date.now() - day;
+
     const yesterdaysTime = JSON.parse(localStorage.getItem('articleClock'));
     if (yesterdaysTime < oneDayAgo || article === []) {
       this.fetchArticle();
@@ -46,27 +44,18 @@ class HomePage extends Component {
   }
 
   fetchArticle = () => {
-    api
-      .getArticles()
-      .then((response) => {
-        const numberOfArticles = response.data.articles.length;
-        return numberOfArticles;
-      })
-      .then((numberOfArticles) => {
-        const id = Math.floor(Math.random() * numberOfArticles);
-        api.getSingleArticle(id).then((response) => {
-          const { article } = response.data;
-          const todaysDate = new Date();
-          this.setState({
-            article: [article],
-            numberOfArticles,
-            articleClock: todaysDate.setHours(9, 0, 0, 0),
-            isLoading: false,
-          });
-          localStorage.setItem('article', JSON.stringify(article));
-          localStorage.setItem('articleClock', JSON.stringify(todaysDate));
-        });
+    api.getRandomArticle().then((response) => {
+      const { article } = response.data;
+      const todaysDate = new Date();
+
+      this.setState({
+        article: article,
+        isLoading: false,
+        articleClock: todaysDate.setHours(9, 0, 0, 0),
       });
+      localStorage.setItem('article', JSON.stringify(article));
+      localStorage.setItem('articleClock', JSON.stringify(todaysDate));
+    });
   };
 
   hydrateStateWithLocalStorage() {
@@ -75,7 +64,7 @@ class HomePage extends Component {
         let value = localStorage.getItem(key);
         try {
           value = JSON.parse(value);
-          this.setState({ [key]: [value], isLoading: false });
+          this.setState({ [key]: value, isLoading: false });
         } catch (e) {
           this.setState({ [key]: value });
         }
@@ -83,5 +72,4 @@ class HomePage extends Component {
     }
   }
 }
-
 export default HomePage;

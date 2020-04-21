@@ -55,7 +55,12 @@ li a:hover {
   background-color: #cdcece;
 }
 /* ---------------------------- */
-
+article {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #9fb1bc;
+}
 /*articles list -------------------- */
 
 ul.articles,
