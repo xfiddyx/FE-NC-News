@@ -53,9 +53,11 @@ class Article extends Component {
           disabled={voteToInc.votes === -1}
           className='button3'
         ></button>
-        <button onClick={this.handleClick} className='button1'>
-          Show Comments
-        </button>
+        <ul>
+          <button onClick={this.handleClick} className='button1'>
+            Show Comments
+          </button>
+        </ul>
         <Comment
           path='/comments'
           article_id={this.props.article_id}

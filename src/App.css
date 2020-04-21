@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,400i,700');
+
+.App {
+  font-family: Raleway, sans-serif;
+  display: grid;
+  grid-template-columns: 10% 80% 10%;
+  grid-template-rows: 120px 50px auto 50px;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas: 'header header header' 'nav nav nav' 'center-left articles center-right' 'Footer Footer Footer';
+}
+
+.header {
+  grid-area: header;
+  background-color: #2e5266;
+  font-family: Raleway, sans-serif;
+  padding-left: 5px;
+  justify-content: left;
+  text-transform: uppercase;
+  font-size: 4rem;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+@media only screen and (max-width: 600px) {
+  .App {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.nav {
+  grid-area: nav;
+}
+
+.center {
+  grid-area: articles;
+}
+
+.Footer {
+  grid-area: Footer;
+}
+
+div.center-right {
+  grid-area: center-right;
+}
+
+div.center-left {
+  grid-area: center-left;
+}

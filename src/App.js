@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Articles from './components/Articles';
 import HomePage from './components/HomePage';
 import ErrorPage from './components/ErrorPage';
+import './App.css';
 import { Router } from '@reach/router';
 import Topics from './components/Topics';
 
@@ -14,7 +15,7 @@ class App extends Component {
   render() {
     const { user } = this.state;
     return (
-      <div>
+      <div className='App'>
         <Header user={user} />
         <Navbar />
         <Router>

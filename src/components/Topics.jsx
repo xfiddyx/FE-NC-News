@@ -24,12 +24,14 @@ class Topics extends Component {
 
     return (
       <>
-        <h1 className='topics'>Topics</h1>
+        <h2 className='topics'>Topics</h2>
         <ul className='topics'>
           {topics.map((topic) => {
             return (
               <li key={topic}>
-                <Link to={`/topics/${topic}`}>{topic}</Link>
+                <Link to={`/topics/${topic}`}>
+                  {topic.charAt(0).toUpperCase() + topic.slice(1)}
+                </Link>
               </li>
             );
           })}

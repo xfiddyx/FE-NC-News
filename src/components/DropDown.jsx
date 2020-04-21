@@ -12,7 +12,7 @@ const DropDown = (props) => {
 
   return (
     <>
-      <select className='select-dropdown' name='order' onChange={handleChange}>
+      <select name='order' onChange={handleChange}>
         {ordering.map((choice) => {
           return (
             <option value={choice} key={choice}>
@@ -21,11 +21,7 @@ const DropDown = (props) => {
           );
         })}
       </select>
-      <select
-        className='select-dropdown'
-        name='sort_by'
-        onChange={handleChange}
-      >
+      <select name='sort_by' onChange={handleChange}>
         {sort.map((choice) => {
           return (
             <option value={choice} key={choice}>
