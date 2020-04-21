@@ -8,4 +8,12 @@ const removeDeletedComment = (comments, comment_id) => {
   return comments.filter((comment) => comment.comment_id !== comment_id);
 };
 
-export { getAllTopicNames, removeDeletedComment };
+const retrieveUsers = (articles) => {
+  const listOfUsers = articles.filter(
+    (article, index, art) =>
+      art.findIndex((a) => a.author === article.author) === index
+  );
+  return listOfUsers.map((user) => user.author);
+};
+
+export { getAllTopicNames, removeDeletedComment, retrieveUsers };

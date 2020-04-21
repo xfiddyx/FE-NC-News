@@ -32,8 +32,9 @@
   grid-area: nav;
 }
 
-.center {
+div.center {
   grid-area: articles;
+  background-color: #f5f5f5;
 }
 
 .Footer {
@@ -42,8 +43,10 @@
 
 div.center-right {
   grid-area: center-right;
+  background-color: #f5f5f5;
 }
 
 div.center-left {
   grid-area: center-left;
+  background-color: #f5f5f5;
 }

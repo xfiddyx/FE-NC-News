@@ -13,18 +13,18 @@ class HomePage extends Component {
     const { article, isLoading } = this.state;
     if (isLoading) return <p>...loading</p>;
     const { title, author, created_at, article_id } = article;
-    console.log(article);
     return (
-      <div>
+      <div className='center'>
         <h1>Article of the day</h1>
         <Link to={`/articles/${article_id}`} onClick={() => {}}>
-          <li key={article_id} className='articles'>
-            <h3 className='articles'> {title} </h3>
+          <li key={article_id} className='article'>
+            <h3 className='article'> {title} </h3>
             <p className='' id={article_id}>
-              Author: {author}
+              <strong>Author: </strong>Author: {author}
             </p>
-            <p className=''>
-              Created: {created_at.substring(0, 10).replace(/-/g, ' ')}
+            <p>
+              <strong>Created: </strong>Created:{' '}
+              {created_at.substring(0, 10).replace(/-/g, ' ')}
             </p>
           </li>
         </Link>

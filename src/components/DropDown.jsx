@@ -1,9 +1,9 @@
 import React from 'react';
 
 const DropDown = (props) => {
-  const sort = ['created at', 'comment count', 'votes'];
+  const sort = ['created at', 'comment count', 'votes', 'user'];
   const ordering = ['desc', 'asc'];
-
+  const { users } = props;
   const handleChange = (event) => {
     const { onChange } = props;
     const { value, name } = event.target;
@@ -11,7 +11,7 @@ const DropDown = (props) => {
   };
 
   return (
-    <>
+    <div className='dropdown'>
       <select name='order' onChange={handleChange}>
         {ordering.map((choice) => {
           return (
@@ -30,7 +30,16 @@ const DropDown = (props) => {
           );
         })}
       </select>
-    </>
+      <select name='author' onChange={handleChange}>
+        {users.map((choice) => {
+          return (
+            <option value={choice} key={choice}>
+              {choice}
+            </option>
+          );
+        })}
+      </select>
+    </div>
   );
 };
 

@@ -5,9 +5,11 @@ const request = axios.create({
   baseURL: 'https://nc-news-odishon.herokuapp.com/api',
 });
 
-export const getArticles = (topic, sort_by, order) => {
+export const getArticles = (topic, sort_by, order, author) => {
   if (sort_by) sort_by = sort_by.replace(/ /, '_');
-  return request.get('/articles', { params: { topic, sort_by, order } });
+  return request.get('/articles', {
+    params: { topic, sort_by, order, author },
+  });
 };
 
 export const getSingleArticle = (id) => {

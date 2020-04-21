@@ -5,18 +5,21 @@ import ListArticles from './ListArticles';
 import SingleArticle from './SingleArticle';
 import ErrorPage from './ErrorPage';
 import * as api from '../utils/api';
+import { retrieveUsers } from '../utils/utils';
 
 class Articles extends Component {
   state = {
     articles: [],
+    users: [],
     sort_by: 'created at',
     order: 'desc',
+    author: '',
     isLoading: true,
     articlesError: null,
   };
 
   render() {
-    const { articles, isLoading, articlesError } = this.state;
+    const { articles, isLoading, articlesError, users } = this.state;
     if (articlesError)
       return (
         <ErrorPage
@@ -38,10 +41,10 @@ class Articles extends Component {
         </Router>
         {!this.props['*'] ? (
           <div className='center'>
-            <DropDown onChange={this.handleChange} />
+            <DropDown onChange={this.handleChange} users={users} />
             <ul className='articles'>
-              {articles.map((article) => {
-                return <ListArticles article={article} />;
+              {articles.map((article, index) => {
+                return <ListArticles article={article} key={index} />;
               })}
             </ul>
           </div>
@@ -55,13 +58,14 @@ class Articles extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     const { topic } = this.props;
-    const { sort_by, order } = this.state;
+    const { sort_by, order, author } = this.state;
     if (
       prevProps.topic !== topic ||
       prevState.sort_by !== sort_by ||
-      prevState.order !== order
+      prevState.order !== order ||
+      prevState.user !== author
     ) {
-      api.getArticles(topic, sort_by, order).then((response) => {
+      api.getArticles(topic, sort_by, order, author).then((response) => {
         const { articles } = response.data;
         this.setState({ articles });
       });
@@ -75,7 +79,8 @@ class Articles extends Component {
       .getArticles(topic, sort_by, order)
       .then((response) => {
         const { articles } = response.data;
-        this.setState({ articles, isLoading: false });
+        const users = retrieveUsers(articles);
+        this.setState({ articles, isLoading: false, users });
       })
       .catch((err) => {
         const { status, data } = err.response;
@@ -86,6 +91,7 @@ class Articles extends Component {
   };
 
   handleChange = (value, name) => {
+    console.log(value, name);
     this.setState({ [name]: value });
   };
 }
