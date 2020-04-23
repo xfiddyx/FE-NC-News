@@ -4,6 +4,9 @@ import Navbar from './components/Navbar';
 import Articles from './components/Articles';
 import HomePage from './components/HomePage';
 import ErrorPage from './components/ErrorPage';
+import * as api from './utils/api';
+
+import SubmitArticle from './components/SubmitArticle';
 import './App.css';
 import { Router } from '@reach/router';
 import Topics from './components/Topics';
@@ -11,9 +14,13 @@ import Topics from './components/Topics';
 class App extends Component {
   state = {
     user: 'weegembump',
+    topics: [],
+    topicError: null,
   };
+
   render() {
-    const { user } = this.state;
+    console.log(this.state);
+    const { user, topics, topicError } = this.state;
     return (
       <div className='App'>
         <Header user={user} />
@@ -21,7 +28,12 @@ class App extends Component {
         <Router>
           <HomePage path='/' />
           <Articles path='/articles/*' user={user} />
-          <Topics path='/topics/*' />
+          <Topics path='/topics/*' topics={topics} topicError={topicError} />
+          <SubmitArticle
+            path='/submit_article'
+            user={user}
+            topics={this.state.topics}
+          />
           <ErrorPage default />
         </Router>
         <div className='center-right'>{''}</div>
@@ -29,6 +41,23 @@ class App extends Component {
       </div>
     );
   }
+  componentDidMount() {
+    this.fetchTopics();
+  }
+  fetchTopics = () => {
+    api
+      .getTopics()
+      .then((topics) => {
+        this.setState({ topics });
+      })
+      .catch((err) => {
+        console.log(err);
+        const { status, data } = err.response;
+        this.setState({
+          topicError: { status: status, message: data.msg },
+        });
+      });
+  };
 }
 
 export default App;

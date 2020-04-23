@@ -20,6 +20,16 @@ export const getRandomArticle = () => {
   return request.get('/articles/article');
 };
 
+export const postArticle = (username, title, topic, body) => {
+  console.log(username, title, topic, body);
+  return request
+    .post('/articles/article', { username, title, topic, body })
+    .then((response) => {
+      const { data } = response;
+      return data;
+    });
+};
+
 export const getTopics = () => {
   return request.get('/topics').then((response) => {
     const topics = util.getAllTopicNames(response.data.topics);
@@ -31,7 +41,6 @@ export const getComment = (id) => {
 };
 
 export const addComment = (username, body, id) => {
-  console.log(username, body, id);
   return request
     .post(`/articles/${id}/comments`, { username, body })
     .then((response) => {
@@ -41,7 +50,6 @@ export const addComment = (username, body, id) => {
 };
 
 export const patchVotes = (vote, id, type) => {
-  console.log(type, id);
   const { data } = request.patch(`/${type}/${id}`, {
     inc_votes: vote,
   });

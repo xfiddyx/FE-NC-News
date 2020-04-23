@@ -91,7 +91,6 @@ class Articles extends Component {
   };
 
   handleChange = (value, name) => {
-    console.log(value, name);
     this.setState({ [name]: value });
   };
 }

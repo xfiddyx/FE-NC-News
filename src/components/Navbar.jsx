@@ -14,6 +14,9 @@ const Navbar = () => {
         <li>
           <Link to='/topics'>Topics</Link>
         </li>
+        <li>
+          <Link to='/submit_article'>Submit Your Article</Link>
+        </li>
       </ul>
     </nav>
   );

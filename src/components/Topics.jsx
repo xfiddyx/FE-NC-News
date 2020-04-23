@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, Router } from '@reach/router';
-import * as api from '../utils/api';
 import Articles from './Articles';
 import ErrorPage from './ErrorPage';
 
@@ -8,11 +7,11 @@ class Topics extends Component {
   state = {
     topics: [],
     isLoading: true,
-    topicError: null,
   };
   render() {
-    const { topics, isLoading, topicError } = this.state;
+    const { isLoading } = this.state;
 
+    const { topics, topicError } = this.props;
     if (topicError)
       return (
         <ErrorPage
@@ -43,24 +42,7 @@ class Topics extends Component {
       </>
     );
   }
-
-  componentDidMount() {
-    this.fetchTopics();
-  }
-
-  fetchTopics = () => {
-    api
-      .getTopics()
-      .then((topics) => {
-        this.setState({ topics, isLoading: false });
-      })
-      .catch((err) => {
-        const { status, data } = err.response;
-        this.setState({
-          topicError: { status: status, message: data.msg },
-        });
-      });
-  };
+  c;
 }
 
 export default Topics;

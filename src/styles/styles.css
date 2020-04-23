@@ -13,10 +13,12 @@ body {
 }
 p {
   color: #898b97;
+  margin-left: 10px;
 }
 
 .header__title {
   padding-left: 5px;
+  margin-bottom: 0px;
   justify-content: left;
   align-items: center;
   text-transform: uppercase;
@@ -26,9 +28,9 @@ p {
 .login {
   padding-left: 20px;
   color: #f1c57d;
-  display: flex;
-  justify-content: left;
-  align-items: flex-end;
+  /* display: flex; */
+  /* justify-content: left; */
+  /* align-items: flex-end; */
   font-size: 10px;
 }
 
@@ -124,12 +126,13 @@ p.singleArticle {
   font-size: 16px;
   margin: 10px;
   margin-bottom: 20px;
+  color: #808080;
 }
 /* ---------------------------- */
 
 h1 {
   font-size: 60px;
-  margin: 0px;
+  margin-top: 10px;
 }
 h2 {
   font-size: 40px;
@@ -168,6 +171,7 @@ h2 {
   display: flex;
   font-size: 12px;
   padding: 10px 10px 10px 10px;
+  margin: 10px;
   border-radius: 5px;
   font-family: 'Raleway', sans-serif;
   color: #000;
@@ -223,6 +227,8 @@ h2 {
 
 input[type='text'],
 textarea {
+  display: inline-block;
+  height: 150px;
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -231,6 +237,10 @@ textarea {
   margin-top: 6px;
   margin-bottom: 16px;
   resize: vertical;
+}
+.title__box {
+  width: 30%;
+  height: 40px;
 }
 
 /* ------ select drop down */
