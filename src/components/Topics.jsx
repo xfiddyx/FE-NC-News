@@ -5,13 +5,12 @@ import ErrorPage from './ErrorPage';
 
 class Topics extends Component {
   state = {
-    topics: [],
     isLoading: true,
   };
   render() {
     const { isLoading } = this.state;
-
     const { topics, topicError } = this.props;
+
     if (topicError)
       return (
         <ErrorPage
@@ -42,7 +41,10 @@ class Topics extends Component {
       </>
     );
   }
-  c;
+  componentDidMount() {
+    const { topics } = this.props;
+    if (topics.length === 0) this.setState({ isLoading: false });
+  }
 }
 
 export default Topics;
