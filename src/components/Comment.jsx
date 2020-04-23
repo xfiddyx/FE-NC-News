@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as api from '../utils/api';
-import { removeDeletedComment } from '../utils/utils';
+import { removeSelectedItem } from '../utils/utils';
 import ListComments from './ListComments';
 
 class Comment extends Component {
@@ -77,7 +77,12 @@ class Comment extends Component {
     api.deleteComment(comment_id).then(() => {
       this.setState((currentState) => {
         const { comments } = currentState;
-        const amendedComments = removeDeletedComment(comments, comment_id);
+        const amendedComments = removeSelectedItem(
+          comments,
+          'comment_id',
+          comment_id
+        );
+        console.log(amendedComments);
         return { comments: amendedComments };
       });
     });

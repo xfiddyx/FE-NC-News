@@ -51,7 +51,6 @@ class App extends Component {
         this.setState({ topics });
       })
       .catch((err) => {
-        console.log(err);
         const { status, data } = err.response;
         this.setState({
           topicError: { status: status, message: data.msg },

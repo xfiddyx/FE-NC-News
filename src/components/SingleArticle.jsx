@@ -22,7 +22,7 @@ class Article extends Component {
       message,
       voteToInc,
     } = this.state;
-    const { type } = this.props;
+    const { type, deleteArticle, user } = this.props;
     if (articleIdError) return <ErrorPage status={status} message={message} />;
     if (isLoading) return <p>...loading</p>;
 
@@ -53,6 +53,16 @@ class Article extends Component {
           disabled={voteToInc.votes === -1}
           className='button3'
         ></button>
+        {user === article.author ? (
+          <button
+            onClick={() => {
+              deleteArticle(article_id);
+            }}
+            className='button1'
+          >
+            Delete article
+          </button>
+        ) : null}
         <ul>
           <button onClick={this.handleClick} className='button1'>
             Show Comments

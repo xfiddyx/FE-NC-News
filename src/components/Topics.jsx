@@ -10,7 +10,6 @@ class Topics extends Component {
   render() {
     const { isLoading } = this.state;
     const { topics, topicError } = this.props;
-
     if (topicError)
       return (
         <ErrorPage
@@ -43,7 +42,9 @@ class Topics extends Component {
   }
   componentDidMount() {
     const { topics } = this.props;
-    if (topics.length === 0) this.setState({ isLoading: false });
+    console.log(topics.length);
+
+    if (topics.length > 0) this.setState({ isLoading: false });
   }
 }
 

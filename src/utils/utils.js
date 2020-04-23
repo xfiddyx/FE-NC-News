@@ -4,8 +4,9 @@ const getAllTopicNames = (topics) => {
   });
 };
 
-const removeDeletedComment = (comments, comment_id) => {
-  return comments.filter((comment) => comment.comment_id !== comment_id);
+const removeSelectedItem = (array, idType, itemId) => {
+  console.log(idType, itemId);
+  return array.filter((arr) => arr[idType] !== itemId);
 };
 
 const retrieveUsers = (articles) => {
@@ -16,4 +17,4 @@ const retrieveUsers = (articles) => {
   return listOfUsers.map((user) => user.author);
 };
 
-export { getAllTopicNames, removeDeletedComment, retrieveUsers };
+export { getAllTopicNames, removeSelectedItem, retrieveUsers };

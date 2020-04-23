@@ -5,7 +5,7 @@ import ListArticles from './ListArticles';
 import SingleArticle from './SingleArticle';
 import ErrorPage from './ErrorPage';
 import * as api from '../utils/api';
-import { retrieveUsers } from '../utils/utils';
+import { retrieveUsers, removeSelectedItem } from '../utils/utils';
 
 class Articles extends Component {
   state = {
@@ -20,6 +20,7 @@ class Articles extends Component {
 
   render() {
     const { articles, isLoading, articlesError, users } = this.state;
+    const { user } = this.props;
     if (articlesError)
       return (
         <ErrorPage
@@ -35,8 +36,9 @@ class Articles extends Component {
         <Router>
           <SingleArticle
             path='/:article_id'
-            user={this.props.user}
+            user={user}
             type={'articles'}
+            deleteArticle={this.deleteArticle}
           />
         </Router>
         {!this.props['*'] ? (
@@ -88,6 +90,20 @@ class Articles extends Component {
           articlesError: { status: status, message: data.msg },
         });
       });
+  };
+
+  deleteArticle = (article_id) => {
+    api.deleteArticle(article_id).then(() => {
+      this.setState((currentState) => {
+        const { articles } = currentState;
+        const amendedArticles = removeSelectedItem(
+          articles,
+          'article_id',
+          article_id
+        );
+        return { comments: amendedArticles };
+      });
+    });
   };
 
   handleChange = (value, name) => {
