@@ -82,7 +82,6 @@ class Comment extends Component {
           'comment_id',
           comment_id
         );
-        console.log(amendedComments);
         return { comments: amendedComments };
       });
     });

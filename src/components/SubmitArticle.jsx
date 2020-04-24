@@ -6,6 +6,7 @@ class SubmitArticle extends Component {
   state = { body: '', title: '', topic: '', articlePosted: false };
   render() {
     const { topics } = this.props;
+    if (topics[0] !== '') topics.unshift('');
     const { articlePosted } = this.state;
     return (
       <>
@@ -16,11 +17,7 @@ class SubmitArticle extends Component {
               <h3>Article</h3>
               <select name='topic' onChange={this.handleArticle} required>
                 {topics.map((choice) => {
-                  return (
-                    <option value={choice} key={choice}>
-                      {choice}
-                    </option>
-                  );
+                  return <option value={choice}>{choice}</option>;
                 })}
               </select>
               <textarea
@@ -57,6 +54,7 @@ class SubmitArticle extends Component {
     event.preventDefault();
     const { body, title, topic } = this.state;
     const { user } = this.props;
+    console.log(topic);
     api.postArticle(user, title, topic, body).then((currentState) => {
       this.setState({ articlePosted: !currentState.articlePosted });
     });

@@ -1,9 +1,10 @@
 import React from 'react';
 
 const DropDown = (props) => {
-  const sort = ['created at', 'comment count', 'votes', 'user'];
-  const ordering = ['desc', 'asc'];
+  const sort = ['', 'created at', 'comment count', 'votes', 'user'];
+  const ordering = ['', 'desc', 'asc'];
   const { users } = props;
+  users.unshift('');
   const handleChange = (event) => {
     const { onChange } = props;
     const { value, name } = event.target;

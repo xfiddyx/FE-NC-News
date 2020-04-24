@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as api from '../utils/api';
 import Comment from './Comment';
+import DeletedArticle from './DeletedArticle';
 import ErrorPage from './ErrorPage';
 
 class Article extends Component {
@@ -22,10 +23,10 @@ class Article extends Component {
       message,
       voteToInc,
     } = this.state;
-    const { type, deleteArticle, user } = this.props;
+    const { type, deleteArticle, user, articleDeleted } = this.props;
     if (articleIdError) return <ErrorPage status={status} message={message} />;
     if (isLoading) return <p>...loading</p>;
-
+    if (articleDeleted) return <DeletedArticle />;
     const { body, created_at, votes, article_id } = article;
 
     return (

@@ -16,9 +16,11 @@ class Articles extends Component {
     author: '',
     isLoading: true,
     articlesError: null,
+    articleDeleted: false,
   };
 
   render() {
+    console.log(this.state);
     const { articles, isLoading, articlesError, users } = this.state;
     const { user } = this.props;
     if (articlesError)
@@ -38,6 +40,7 @@ class Articles extends Component {
             path='/:article_id'
             user={user}
             type={'articles'}
+            articleDeleted={this.state.articleDeleted}
             deleteArticle={this.deleteArticle}
           />
         </Router>
@@ -65,7 +68,7 @@ class Articles extends Component {
       prevProps.topic !== topic ||
       prevState.sort_by !== sort_by ||
       prevState.order !== order ||
-      prevState.user !== author
+      prevState.author !== author
     ) {
       api.getArticles(topic, sort_by, order, author).then((response) => {
         const { articles } = response.data;
@@ -75,14 +78,14 @@ class Articles extends Component {
   }
 
   fetchArticles = () => {
-    const { topic } = this.props;
+    const { topic, user } = this.props;
     const { sort_by, order } = this.state;
     api
       .getArticles(topic, sort_by, order)
       .then((response) => {
         const { articles } = response.data;
         const users = retrieveUsers(articles);
-        this.setState({ articles, isLoading: false, users });
+        this.setState({ articles, isLoading: false, users, author: user });
       })
       .catch((err) => {
         const { status, data } = err.response;
@@ -101,7 +104,10 @@ class Articles extends Component {
           'article_id',
           article_id
         );
-        return { comments: amendedArticles };
+        return {
+          articles: amendedArticles,
+          articleDeleted: !currentState.articleDeleted,
+        };
       });
     });
   };

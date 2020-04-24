@@ -5,7 +5,7 @@ const getAllTopicNames = (topics) => {
 };
 
 const removeSelectedItem = (array, idType, itemId) => {
-  console.log(idType, itemId);
+  console.log(array, idType, itemId);
   return array.filter((arr) => arr[idType] !== itemId);
 };
 
